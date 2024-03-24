@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const settingSchema = new Schema(
   {
     address: {
       type: String,
@@ -15,5 +15,5 @@ const userSchema = new Schema(
   }
 );
 
-const userModel = mongoose.model("user", userSchema);
-module.exports = userModel;
+const settingModel = mongoose.model("setting", settingSchema);
+module.exports = settingModel;
