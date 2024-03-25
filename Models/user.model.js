@@ -9,6 +9,10 @@ const settingSchema = new Schema(
     linkRef: {
       type: String,
     },
+    totalReward: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
