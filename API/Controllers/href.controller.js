@@ -1,4 +1,8 @@
 const userModel = require("../../Models/user.model");
+const hrefModel = require("../../Models/href.model");
+const orderModel = require("../../Models/order.model");
+const commissionModel = require("../../Models/commission.model");
+const quantityChildControler = require("../Controllers/quantityChild.controller");
 const hrefController = {
   createHref: async (address) => {
     const domain = process.env.domain;
@@ -46,7 +50,7 @@ const hrefController = {
         (total, quantity) => total + quantity,
         0
       );
-      const findRose = await roseModel.findOne({ status: null });
+      const findRose = await commissionModel.findOne({ status: null });
 
       const totalRose = reduceTotal * findRose.price * findRose.percent;
       console.log("totalRose:", totalRose);
@@ -81,9 +85,9 @@ const hrefController = {
   saveHref: async (req, res, next) => {
     try {
       const addressGrand = req.body.referralCode;
-      console.log("addressGrand:", addressGrand);
+      //console.log("addressGrand:", addressGrand);
       const addressChild = req.body.walletAddress;
-      console.log("addressChild:", addressChild);
+      //console.log("addressChild:", addressChild);
       const grandUser = await userModel.findOne({ address: addressGrand });
       if (!grandUser) {
         return res.status(404).json({
@@ -91,13 +95,25 @@ const hrefController = {
           message: "Address not found!",
         });
       }
+      const findAddressChild = await hrefModel.findOne({
+        addressChild: addressChild,
+      });
+      if (findAddressChild) {
+        return res.status(409).json({
+          sucess: false,
+          message: "Address child is existing!",
+        });
+      }
       const newGrandChild = new hrefModel({
         addressChild: addressChild,
         addressGrand: grandUser._id,
       });
-      console.log("newGrandChild:", newGrandChild);
+      //console.log("newGrandChild:", newGrandChild);
       const saveNewGrandChild = await newGrandChild.save();
-      console.log("savenewGrandChild:", saveNewGrandChild);
+      // console.log("savenewGrandChild:", saveNewGrandChild);
+      // console.log("grandUser:", grandUser._id);
+      const updatedQuantityChild =
+        await quantityChildControler.updateQuantityChild(grandUser.address);
       return res.status(200).json({
         sucess: true,
         data: saveNewGrandChild,

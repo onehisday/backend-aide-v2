@@ -1,4 +1,6 @@
 const rewardModel = require("../../Models/reward.model");
+const orderModel = require("../../Models/order.model");
+const detailOrderModel = require("../../Models/detailOrder.model");
 const rewardController = {
   postReward: async (req, res, next) => {
     try {
@@ -85,6 +87,26 @@ const rewardController = {
         message: error.message,
       });
     }
+  },
+  calculateTotalRewardByUser: async (userAddress) => {
+    console.log(123);
+    const findOrderByUser = await orderModel
+      .find({ address: userAddress })
+      .populate({ path: "detail" });
+
+    console.log("finds:", findOrderByUser);
+    if (findOrderByUser.length === 0) {
+      return 0;
+    }
+    let totalReward = 0;
+    for (const i of findOrderByUser) {
+      console.log(456);
+      for (const a of i.detail) {
+        totalReward += a.reward;
+      }
+    }
+    console.log("totalReward:", totalReward);
+    return totalReward;
   },
 };
 module.exports = rewardController;

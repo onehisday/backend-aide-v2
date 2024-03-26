@@ -7,11 +7,12 @@ const historyClaimNodeSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
-    commissionReward: {
+    rewardNode: {
       type: Number,
     },
     state: {
-      type: String,
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

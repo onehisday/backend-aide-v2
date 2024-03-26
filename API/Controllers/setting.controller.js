@@ -5,11 +5,18 @@ const settingController = {
   saveSetting: async (req, res, next) => {
     try {
       console.log(req.file);
+      let faviconPath, logoPath;
+      if (req.file && req.file.filename === "favicon") {
+        faviconPath = req.file.path;
+      }
+      if (req.file && req.file.filename === "logo") {
+        logoPath = req.file.path;
+      }
       const newSetting = new settingModel({
         title: req.body.title,
         descriptionSetting: req.body.descriptionSetting,
-        favicon: req.file.path,
-        logo: req.file.path,
+        favicon: faviconPath,
+        logo: logoPath,
       });
       const saveSetting = await newSetting.save();
       return res.status(200).json({

@@ -273,9 +273,9 @@ const orderController = {
         .find({ address: req.params._id })
         .populate({
           path: "detail",
-          populate: {
-            path: "tier",
-          },
+          // populate: {
+          //   path: "tier",
+          // },
         })
         .populate({ path: "idTransaction" });
       return res.status(200).json({

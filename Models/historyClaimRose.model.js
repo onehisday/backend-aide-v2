@@ -11,7 +11,8 @@ const historyClaimRoseSchema = new Schema(
       type: Number,
     },
     state: {
-      type: String,
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

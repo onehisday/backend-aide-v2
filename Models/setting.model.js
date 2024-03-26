@@ -18,5 +18,5 @@ const settingSchema = new Schema(
   },
   { timestamps: true }
 );
-const settingModel = mongoose.model("user", settingSchema);
+const settingModel = mongoose.model("setting", settingSchema);
 module.exports = settingModel;

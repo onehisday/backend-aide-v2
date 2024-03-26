@@ -31,6 +31,7 @@ const userController = {
   getAllUser: async (req, res, next) => {
     try {
       const findUser = await userModel.find();
+      console.log(findUser);
       return res.status(200).json({
         sucess: true,
         data: findUser,
