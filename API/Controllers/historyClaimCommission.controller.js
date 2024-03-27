@@ -87,7 +87,7 @@ const claimCommissionController = {
       const updatedDataCommission = {
         state: true,
       };
-      const updatedCommission = await rewardModel.findOneAndUpdate(
+      const updatedCommission = await historyClaimRoseModel.findOneAndUpdate(
         conditionCommission,
         updatedDataCommission,
         { new: true }
