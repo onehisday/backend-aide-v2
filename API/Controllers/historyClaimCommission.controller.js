@@ -5,6 +5,7 @@ const claimCommissionController = {
   claimCommission: async (req, res, next) => {
     try {
       const commissionReward = req.body.commissionReward;
+      console.log(commissionReward);
       const addressWallet = req.body.addressWallet;
       const findUserAddress = await userModel.findOne({
         address: addressWallet,
@@ -17,7 +18,7 @@ const claimCommissionController = {
       }
       const commission = new claimCommisionModel({
         addressWallet: findUserAddress._id,
-        commsisionReward: commissionReward,
+        commissionReward: commissionReward,
       });
       const saveClaimCommission = await commission.save();
       return res.status(200).json({
