@@ -5,7 +5,7 @@ const app = express();
 const connect = require("./Config/index");
 const moment = require("moment");
 const cloudinary = require("cloudinary");
-const multerStorageCloundinary = require("multer-storage-cloudinary");
+//const multerStorageCloundinary = require("multer-storage-cloudinary");
 const PORT = process.env.PORT;
 
 const rewardController = require("./API/Controllers/reward.controller");
@@ -34,6 +34,8 @@ const claimNodeRouter = require("./API/Routers/claimNode.router");
 const hrefRouter = require("./API/Routers/href.router");
 const historyClaimNodeRouter = require("./API/Routers/historyClaimNode.router");
 const historyClaimCommissionRouter = require("./API/Routers/historyClaimCommission.router");
+const transactionRouter = require("./API/Routers/transaction.router");
+const commissionRouter = require("./API/Routers/commission.router");
 
 const rewardModel = require("./Models/reward.model");
 const detailOrderModel = require("./Models/detailOrder.model");
@@ -45,7 +47,7 @@ app.use(userRouter);
 app.use(tierRouter);
 app.use(walletRouter);
 app.use(promotionRouter);
-//app.use(settingRouter);
+app.use(settingRouter);
 app.use(orderRouter);
 app.use(rewardRouter);
 app.use(claimRoseRouter);
@@ -53,6 +55,8 @@ app.use(claimNodeRouter);
 app.use(hrefRouter);
 app.use(historyClaimNodeRouter);
 app.use(historyClaimCommissionRouter);
+app.use(transactionRouter);
+app.use(commissionRouter);
 
 const updateTotalEveryMin = async () => {
   const _id = process.env._id;

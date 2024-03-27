@@ -4,18 +4,18 @@ const commissionionController = require("../Controllers/commission.controller");
 
 commissionionRouter.post(
   "/api/create/commissionion",
-  commissionionController.createcommissionion
+  commissionionController.createCommission
 );
 commissionionRouter.put(
   "/api/update/commissionion/:_id",
-  commissionionController.updatecommissionion
+  commissionionController.updateCommission
 );
 commissionionRouter.get(
   "/api/all/commissionion",
-  commissionionController.getAllcommissionion
+  commissionionController.getAllCommission
 );
 commissionionRouter.get(
   "/api/commissionion/:_id",
-  commissionionController.getIdcommissionion
+  commissionionController.getIdCommission
 );
 module.exports = commissionionRouter;
