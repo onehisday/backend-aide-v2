@@ -90,7 +90,7 @@ const promotionController = {
       });
     }
   },
-  getAllPromotion: async (req, res, next) => {
+  promotionHappen: async (req, res, next) => {
     try {
       const findPromo = await promotionModel.find();
       const validPromoCodes = [];
@@ -168,6 +168,51 @@ const promotionController = {
       return res.status(200).json({
         sucess: true,
         message: "The data has been wiped clean.",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  promotionCommingSoon: async (req, res, next) => {
+    try {
+      const findPromotion = await promotionModel.find();
+      const currentDate = moment();
+      console.log("currentDate:", currentDate);
+      const checkPromotion = findPromotion.filter((pro) => {
+        const start = moment(pro.startDate);
+        return currentDate.isBefore(start);
+      });
+      if (checkPromotion.length == 0) {
+        return res.status(200).json({
+          sucess: true,
+          message: "No promotion comming soon!",
+        });
+      }
+      return res.status(200).json({
+        sucess: true,
+        data: checkPromotion,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  promotionFinished: async (req, res, next) => {
+    try {
+      const findPromotion = await promotionModel.find();
+      const currentDate = moment();
+      const checkProFinished = findPromotion.filter((pro) => {
+        const endDate = moment(pro.endDate);
+        return currentDate.isAfter(endDate);
+      });
+      return res.status(200).json({
+        sucess: true,
+        data: checkProFinished,
       });
     } catch (error) {
       return res.status(500).json({
