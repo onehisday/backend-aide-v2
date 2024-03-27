@@ -315,7 +315,12 @@ const orderController = {
     try {
       const findAllOrder = await orderModel
         .find()
-        .populate({ path: "detail" })
+        .populate({
+          path: "detail",
+          populate: {
+            path: "tier",
+          },
+        })
         .populate({ path: "idTransaction" });
       return res.status(200).json({
         sucess: true,
