@@ -21,4 +21,6 @@ settingRouter.post(
   //uploadMultiple,
   settingController.saveSetting
 );
+settingRouter.get("/api/all/setting", settingController.getAllSetting);
+settingRouter.get("/api/all/setting/:_id", settingController.getIdSetting);
 module.exports = settingRouter;

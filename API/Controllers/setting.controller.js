@@ -43,20 +43,54 @@ const settingController = {
     }
   },
   uploadImage: async (image) => {
-    console.log("image:", image);
+    //console.log("image:", image);
     const imageName = uuidv4();
-    console.log("imageName:", imageName);
+    //console.log("imageName:", imageName);
     const imageRef = ref(storage, `images/${imageName}`);
-    console.log("imageRef:", imageRef);
+    //console.log("imageRef:", imageRef);
     const metadata = {
       contentType: image.mimetype,
     };
-    console.log("metadata:", metadata);
+    //console.log("metadata:", metadata);
     // Read the image file from the path
     const imageData = fs.readFileSync(image.path);
     const snapshot = await uploadBytesResumable(imageRef, imageData, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
+  },
+  getAllSetting: async (req, res, next) => {
+    try {
+      const findAllSetting = await settingController.find();
+      return res.status(200).json({
+        sucess: true,
+        data: findAllSetting,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  getIdSetting: async (req, res, next) => {
+    try {
+      const findIdSetting = await settingModel.findOne({ _id: req.params._id });
+      if (!findIdSetting) {
+        return res.status(404).json({
+          sucess: false,
+          message: "The id setting not found!",
+        });
+      }
+      return res.status(200).json({
+        sucess: true,
+        data: findIdSetting,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
   },
 };
 module.exports = settingController;
