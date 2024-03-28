@@ -18,4 +18,8 @@ historyClaimNodeRouter.get(
   "/api/claim/node/address/:_id",
   historyClaimNodeController.getIdWalletAddress
 );
+historyClaimNodeRouter.put(
+  "/api/claim/history/node/update/:_id",
+  historyClaimNodeController.putHistoryClaimNode
+);
 module.exports = historyClaimNodeRouter;

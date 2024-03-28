@@ -100,6 +100,39 @@ const claimNodeController = {
       });
     }
   },
+  putHistoryClaimNode: async (req, res, next) => {
+    try {
+      const findHistoryNode = await historyClaimNodeModel.findOne({
+        _id: req.params._id,
+      });
+      if (!findHistoryNode) {
+        return res.status(404).json({
+          sucess: false,
+          message: "The Id history claim node not found!",
+        });
+      }
+      const conditionNode = {
+        _id: req.params._id,
+      };
+      const updatedDataNode = {
+        state: true,
+      };
+      const updatedNode = await historyClaimNodeModel.findOneAndUpdate(
+        conditionNode,
+        updatedDataNode,
+        { new: true }
+      );
+      return res.status(200).json({
+        message: "Updated state successfully!",
+        data: updatedNode,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 
 module.exports = claimNodeController;
