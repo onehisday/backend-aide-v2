@@ -19,12 +19,12 @@ settingRouter.post(
 );
 settingRouter.get("/api/all/setting", settingController.getAllSetting);
 settingRouter.get("/api/all/setting/:_id", settingController.getIdSetting);
-settingRouter.put(
-  "/api/update/setting/:_id",
-  uploadd.fields([
-    { name: "logo", maxCount: 1 },
-    { name: "favicon", maxCount: 1 },
-  ]),
-  settingController.putSetting
-);
+// settingRouter.put(
+//   "/api/update/setting/:_id",
+//   uploadd.fields([
+//     { name: "logo", maxCount: 1 },
+//     { name: "favicon", maxCount: 1 },
+//   ]),
+//   settingController.putSetting
+// );
 module.exports = settingRouter;
