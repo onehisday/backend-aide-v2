@@ -31,7 +31,7 @@ const claimRoseController = {
         _id: req.params._id,
       };
       const updatedDataClaimRose = {
-        status: true,
+        status: req.body.status,
       };
       const updatedReward = await claimRoseModel.findOneAndUpdate(
         conditionReward,

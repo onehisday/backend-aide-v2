@@ -27,7 +27,7 @@ const claimNodeController = {
         });
       }
       const conditionNode = { _id: req.params._id };
-      const updatedDataNode = { status: true };
+      const updatedDataNode = { status: req.body.status };
       const updatedNode = await claimNodeModel.findOneAndUpdate(
         conditionNode,
         updatedDataNode,

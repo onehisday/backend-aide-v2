@@ -14,9 +14,11 @@ const settingController = {
   saveSetting: async (req, res, next) => {
     try {
       const images = req.files;
+      console.log("images:", images);
       const logoImage = images.logo[0];
       const faviconImage = images.favicon[0];
       const logoUrl = await settingController.uploadImage(logoImage);
+      console.log("logoUrl:", logoUrl);
       const faviconUrl = await settingController.uploadImage(faviconImage);
       const newSetting = new settingModel({
         title: req.body.title,
