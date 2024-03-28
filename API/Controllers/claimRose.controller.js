@@ -49,5 +49,41 @@ const claimRoseController = {
       });
     }
   },
+  getAllRose: async (req, res, next) => {
+    try {
+      const findClaimRose = await claimRoseModel.find();
+      return res.status(200).json({
+        sucess: true,
+        data: findClaimRose,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  getIdRose: async (req, res, next) => {
+    try {
+      const findClaimRose = await claimRoseModel.findOne({
+        _id: req.params._id,
+      });
+      if (!findClaimRose) {
+        return res.status(404).json({
+          sucess: false,
+          message: "The if claim commission not found!",
+        });
+      }
+      return res.status(200).json({
+        sucess: true,
+        data: findClaimRose,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = claimRoseController;

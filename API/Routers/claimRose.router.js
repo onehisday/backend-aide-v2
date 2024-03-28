@@ -7,5 +7,7 @@ claimRoseRouter.put(
   "/api/update/claim/rose/:_id",
   claimRoseController.updateReward
 );
+claimRoseRouter.get("/api/all/claim/rose", claimRoseController.getAllRose);
+claimRoseRouter.get("/api/all/claim/rose/:_id", claimRoseController.getIdRose);
 
 module.exports = claimRoseRouter;

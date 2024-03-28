@@ -13,16 +13,10 @@ const fs = require("fs");
 const settingController = {
   saveSetting: async (req, res, next) => {
     try {
-      console.log(123);
-      console.log(req.files);
       const images = req.files;
-      console.log("images:", images);
       const logoImage = images.logo[0];
-      console.log("logoImage:", logoImage);
       const faviconImage = images.favicon[0];
-      // Upload images to Firebase
       const logoUrl = await settingController.uploadImage(logoImage);
-      console.log("logoUrl:", logoUrl);
       const faviconUrl = await settingController.uploadImage(faviconImage);
       const newSetting = new settingModel({
         title: req.body.title,
@@ -43,16 +37,11 @@ const settingController = {
     }
   },
   uploadImage: async (image) => {
-    //console.log("image:", image);
     const imageName = uuidv4();
-    //console.log("imageName:", imageName);
     const imageRef = ref(storage, `images/${imageName}`);
-    //console.log("imageRef:", imageRef);
     const metadata = {
       contentType: image.mimetype,
     };
-    //console.log("metadata:", metadata);
-    // Read the image file from the path
     const imageData = fs.readFileSync(image.path);
     const snapshot = await uploadBytesResumable(imageRef, imageData, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
@@ -84,6 +73,41 @@ const settingController = {
       return res.status(200).json({
         sucess: true,
         data: findIdSetting,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  putSetting: async (req, res, next) => {
+    try {
+      const title = req.body.title;
+      const descriptionSetting = req.body.descriptionSetting;
+      const images = req.files;
+      console.log(images);
+      const logoImage = images.logo[0];
+      console.log("logoImage:", logoImage);
+      const faviconImage = images.favicon[0];
+      console.log("favicon:", faviconImage);
+      const logoUrl = await settingController.uploadImage(logoImage);
+      const faviconUrl = await settingController.uploadImage(faviconImage);
+      const conditionSetting = { _id: req.params._id };
+      const updateSettingData = {
+        title: title,
+        descriptionSetting: descriptionSetting,
+        favicon: faviconUrl,
+        logo: logoUrl,
+      };
+      const updatedSetting = await settingModel.findOneAndUpdate(
+        conditionSetting,
+        updateSettingData,
+        { new: true }
+      );
+      return res.status(200).json({
+        sucess: true,
+        data: updatedSetting,
       });
     } catch (error) {
       return res.status(500).json({
