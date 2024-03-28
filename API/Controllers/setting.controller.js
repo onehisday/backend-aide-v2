@@ -83,51 +83,41 @@ const settingController = {
       });
     }
   },
-  // putSetting: async (req, res, next) => {
-  //   try {
-  //     const title = req.body.title;
-  //     const descriptionSetting = req.body.descriptionSetting;
-  //     const updateSettingData = {
-  //       title: title,
-  //       descriptionSetting: descriptionSetting,
-  //       favicon: faviconUrl,
-  //       logo: logoUrl,
-  //     };
-  //     const images = req.files;
-  //     console.log(images);
-  //     if (images && images.logo) {
-  //       const logoImage = images.logo[0];
-  //       const logoUrl = await settingController.uploadImage(logoImage);
-  //       u;
-  //     }
-  //     const logoImage = images.logo[0];
-  //     console.log("logoImage:", logoImage);
-  //     const faviconImage = images.favicon[0];
-  //     console.log("favicon:", faviconImage);
-  //     const logoUrl = await settingController.uploadImage(logoImage);
-  //     const faviconUrl = await settingController.uploadImage(faviconImage);
-  //     const conditionSetting = { _id: req.params._id };
-  //     const updateSettingData = {
-  //       title: title,
-  //       descriptionSetting: descriptionSetting,
-  //       favicon: faviconUrl,
-  //       logo: logoUrl,
-  //     };
-  //     const updatedSetting = await settingModel.findOneAndUpdate(
-  //       conditionSetting,
-  //       updateSettingData,
-  //       { new: true }
-  //     );
-  //     return res.status(200).json({
-  //       sucess: true,
-  //       data: updatedSetting,
-  //     });
-  //   } catch (error) {
-  //     return res.status(500).json({
-  //       sucess: false,
-  //       message: error.message,
-  //     });
-  //   }
-  // },
+  putSetting: async (req, res, next) => {
+    try {
+      const title = req.body.title;
+      const descriptionSetting = req.body.descriptionSetting;
+      const updateSettingData = {
+        title: title,
+        descriptionSetting: descriptionSetting,
+      };
+      const images = req.files;
+      if (images && images.logo) {
+        const logoImage = images.logo[0];
+        const logoUrl = await settingController.uploadImage(logoImage);
+        updateSettingData.logo = logoUrl;
+      }
+      if (images && images.favicon) {
+        const faviconImage = images.favicon[0];
+        const faviconUrl = await settingController.uploadImage(faviconImage);
+        updateSettingData.favicon = faviconUrl;
+      }
+      const conditionSetting = { _id: req.params._id };
+      const updatedSetting = await settingModel.findOneAndUpdate(
+        conditionSetting,
+        updateSettingData,
+        { new: true }
+      );
+      return res.status(200).json({
+        sucess: true,
+        data: updatedSetting,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = settingController;
