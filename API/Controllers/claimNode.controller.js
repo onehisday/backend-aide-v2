@@ -44,5 +44,41 @@ const claimNodeController = {
       });
     }
   },
+  getAllNode: async (req, res, next) => {
+    try {
+      const findClaimNode = await claimNodeModel.find();
+      return res.status(200).json({
+        sucess: true,
+        data: findClaimNode,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
+  getIdNode: async (req, res, next) => {
+    try {
+      const findClaimNode = await claimNodeModel.findOne({
+        _id: req.params._id,
+      });
+      if (!findClaimNode) {
+        return res.status(404).json({
+          sucess: false,
+          message: "The if claim node not found!",
+        });
+      }
+      return res.status(200).json({
+        sucess: true,
+        data: findClaimNode,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = claimNodeController;
