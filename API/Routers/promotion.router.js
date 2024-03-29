@@ -26,5 +26,9 @@ promotionRouter.delete(
   "/api/delete/all/promo",
   promotionController.deleteAllPromo
 );
+promotionRouter.put(
+  "/api/update/promo/:_id",
+  promotionController.updatePromoStatus
+);
 promotionRouter;
 module.exports = promotionRouter;

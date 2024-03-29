@@ -221,5 +221,34 @@ const promotionController = {
       });
     }
   },
+  updatePromoStatus: async (req, res, next) => {
+    try {
+      const findPromo = await promotionModel.findOne({
+        _id: req.params._id,
+      });
+      if (!findPromo) {
+        return res.status(404).json({
+          sucess: false,
+          message: "The Promo not found!",
+        });
+      }
+      const conditionPromo = { _id: req.params._id };
+      const updatedDataPromo = { isPromo: req.body.isPromo };
+      const updatedPromo = await promotionModel.findOneAndUpdate(
+        conditionPromo,
+        updatedDataPromo,
+        { new: true }
+      );
+      return res.status(200).json({
+        message: "Updated promo successfully!",
+        data: updatedPromo,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = promotionController;

@@ -96,7 +96,7 @@ const updateCountRewardByUser = async () => {
   }
 };
 
-//setInterval(updateCountRewardByUser, 10000);
+//setInterval(updateCountRewardByUser, process.env.settimeTotal);
 app.get("", (req, res) => {
   res.status(200).send({ message: "Welcome" });
 });
