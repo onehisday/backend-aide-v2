@@ -61,13 +61,16 @@ app.use(commissionRouter);
 const updateTotalEveryMin = async () => {
   const _id = process.env._id;
   const findReward = await rewardModel.findOne({ _id: _id });
+  //console.log("findReward:", findReward);
   const findsDetailOrder = await detailOrderModel.updateMany(
-    { isStart: false },
-    { $inc: findReward.quantityCoin }
+    { isStart: true },
+    { $inc: { reward: findReward.quantityCoin } },
+    { new: true }
   );
 };
 const intervalTime = async () => {
   const findReward = await rewardModel.findOne({ _id: process.env._id });
+  console.log(123);
   if (findReward.status === false) {
     return null;
   } else {
