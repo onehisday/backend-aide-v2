@@ -1,5 +1,8 @@
 const historyClaimNodeModel = require("../../Models/historyClaimNode.model");
 const userModel = require("../../Models/user.model");
+const orderModel = require("../../Models/order.model");
+const detailOrder = require("../../Models/detailOrder.model");
+const detailOrderModel = require("../../Models/detailOrder.model");
 
 const claimNodeController = {
   claimNode: async (req, res, next) => {
@@ -18,6 +21,24 @@ const claimNodeController = {
         addressWallet: findAddress._id,
       });
       const saveNewClaimNode = await newClaimNode.save();
+      const findOrder = await orderModel
+        .find({ address: addressWallet })
+        .populate({ path: "detail" });
+      //console.log("findOrder:", findOrder);
+      for (let i = 0; i < findOrder.length; i++) {
+        const order = findOrder[i];
+        console.log("order:", order);
+        for (let j = 0; j < order.detail.length; j++) {
+          console.log("set:", order.detail[j]);
+          const idDetail = order.detail[j]._id;
+          const updateReward = await detailOrderModel.findOneAndUpdate(
+            { _id: idDetail },
+            { $set: { reward: 0 } },
+            { new: true }
+          );
+        }
+      }
+      //console.log("Rewards set to zero successfully!");
       const updatedTotalReward = await userModel.findOneAndUpdate(
         {
           address: addressWallet,
