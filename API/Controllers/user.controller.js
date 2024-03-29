@@ -64,5 +64,26 @@ const userController = {
       });
     }
   },
+  getUserAddress: async (req, res, next) => {
+    try {
+      const findIdUser = await userModel.findOne({ address: req.params._id });
+      if (findIdUser) {
+        return res.status(200).json({
+          sucess: true,
+          data: findIdUser,
+        });
+      } else {
+        return res.status(404).json({
+          sucess: false,
+          message: "The address not found!",
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = userController;
