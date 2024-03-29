@@ -74,11 +74,11 @@ const intervalTime = async () => {
     return findReward.setTime;
   }
 };
-// intervalTime().then((setTime) => {
-//   if(setTime !== null) {
-//     setInterval(updateTotalEveryMin, setTime)
-//   }
-// })
+intervalTime().then((setTime) => {
+  if (setTime !== null) {
+    setInterval(updateTotalEveryMin, setTime);
+  }
+});
 const updateCountRewardByUser = async () => {
   try {
     const allUser = await userModel.find();
@@ -96,7 +96,7 @@ const updateCountRewardByUser = async () => {
   }
 };
 
-//setInterval(updateCountRewardByUser, process.env.settimeTotal);
+setInterval(updateCountRewardByUser, process.env.settimeTotal);
 app.get("", (req, res) => {
   res.status(200).send({ message: "Welcome" });
 });
