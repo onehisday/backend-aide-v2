@@ -30,5 +30,9 @@ promotionRouter.put(
   "/api/update/promo/:_id",
   promotionController.updatePromoStatus
 );
+promotionRouter.get(
+  "/api/all/promotion/used",
+  promotionController.getAllPromoIsTrue
+);
 promotionRouter;
 module.exports = promotionRouter;

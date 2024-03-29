@@ -250,5 +250,19 @@ const promotionController = {
       });
     }
   },
+  getAllPromoIsTrue: async (req, res, next) => {
+    try {
+      const findPromo = await promotionModel.find({ isPromo: true });
+      return res.status(200).json({
+        sucess: true,
+        data: findPromo,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = promotionController;
