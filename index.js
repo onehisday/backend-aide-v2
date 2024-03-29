@@ -92,24 +92,24 @@ startInterval();
 //     setInterval(updateTotalEveryMin, setTime);
 //   }
 // });
-// const updateCountRewardByUser = async () => {
-//   try {
-//     const allUser = await userModel.find();
-//     for (const user of allUser) {
-//       const userAddress = user.address;
-//       const totalReward = await rewardController.calculateTotalRewardByUser(
-//         userAddress
-//       );
-//       user.totalReward = totalReward;
-//       await user.save();
-//     }
-//     console.log("Total reward updated for all users successfully.");
-//   } catch (error) {
-//     console.error("Error updating total reward for users:", error);
-//   }
-// };
+const updateCountRewardByUser = async () => {
+  try {
+    const allUser = await userModel.find();
+    for (const user of allUser) {
+      const userAddress = user.address;
+      const totalReward = await rewardController.calculateTotalRewardByUser(
+        userAddress
+      );
+      user.totalReward = totalReward;
+      await user.save();
+    }
+    console.log("Total reward updated for all users successfully.");
+  } catch (error) {
+    console.error("Error updating total reward for users:", error);
+  }
+};
 
-//setInterval(updateCountRewardByUser, process.env.settimeTotal);
+setInterval(updateCountRewardByUser, process.env.settimeTotal);
 app.get("", (req, res) => {
   res.status(200).send({ message: "Welcome" });
 });
