@@ -101,9 +101,12 @@ const claimNodeController = {
   },
   getIdWalletAddress: async (req, res, next) => {
     try {
-      const findByWalletAddress = await historyClaimNodeModel
-        .findOne({ addressWallet: req.params._id })
-        .populate({ path: "addressWallet" });
+      const findUser = await userModel.findOne({ address: req.params._id });
+      console.log(findUser);
+      const idUser = findUser._id;
+      const findByWalletAddress = await historyClaimNodeModel.find({
+        addressWallet: idUser,
+      });
       if (!findByWalletAddress) {
         return res.status(404).json({
           sucess: false,
