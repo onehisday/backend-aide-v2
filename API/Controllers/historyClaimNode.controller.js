@@ -139,7 +139,7 @@ const claimNodeController = {
         _id: req.params._id,
       };
       const updatedDataNode = {
-        state: true,
+        state: req.body.state,
       };
       const updatedNode = await historyClaimNodeModel.findOneAndUpdate(
         conditionNode,
