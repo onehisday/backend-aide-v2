@@ -1,8 +1,10 @@
 const express = require("express");
 const promotionRouter = express.Router();
 const promotionController = require("../Controllers/promotion.controller");
+
 promotionRouter.post(
   "/api/create/promo",
+
   promotionController.createCouponByAmount
 );
 promotionRouter.get(
@@ -11,10 +13,12 @@ promotionRouter.get(
 );
 promotionRouter.get(
   "/api/all/promotion/commingsoon",
+
   promotionController.promotionCommingSoon
 );
 promotionRouter.get(
   "/api/all/promotion/finished",
+
   promotionController.promotionFinished
 );
 promotionRouter.get("/api/promo/:_id", promotionController.getIdPromotion);

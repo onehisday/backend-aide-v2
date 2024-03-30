@@ -85,7 +85,7 @@ const claimCommissionController = {
         _id: req.params._id,
       };
       const updatedDataCommission = {
-        state: true,
+        state: req.body.state,
       };
       const updatedCommission = await historyClaimRoseModel.findOneAndUpdate(
         conditionCommission,

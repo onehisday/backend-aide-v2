@@ -1,6 +1,7 @@
 const express = require("express");
 const userAdminRouter = express.Router();
 const userAdminController = require("../Controllers/userAdmin.controller");
+
 userAdminRouter.post("/api/create/admin", userAdminController.createUserAdmin);
 userAdminRouter.put(
   "/api/update/admin/:_id",
