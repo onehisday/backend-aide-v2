@@ -4,8 +4,6 @@ const express = require("express");
 const app = express();
 const connect = require("./Config/index");
 const moment = require("moment");
-const cloudinary = require("cloudinary");
-//const multerStorageCloundinary = require("multer-storage-cloudinary");
 const PORT = process.env.PORT;
 
 const rewardController = require("./API/Controllers/reward.controller");
@@ -87,11 +85,6 @@ const startInterval = async () => {
   }
 };
 startInterval();
-// intervalTime().then((setTime) => {
-//   if (setTime !== null) {
-//     setInterval(updateTotalEveryMin, setTime);
-//   }
-// });
 const updateCountRewardByUser = async () => {
   try {
     const allUser = await userModel.find();

@@ -47,6 +47,7 @@ const settingController = {
     const imageData = fs.readFileSync(image.path);
     const snapshot = await uploadBytesResumable(imageRef, imageData, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
+    fs.unlinkSync(image.path);
     return downloadURL;
   },
   getAllSetting: async (req, res, next) => {

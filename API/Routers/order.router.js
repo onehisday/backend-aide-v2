@@ -8,5 +8,4 @@ orderRouter.get(
 );
 orderRouter.get("/api/all/order/:_id", orderController.allOrderById);
 orderRouter.get("/api/all/order", orderController.allOrder);
-
 module.exports = orderRouter;
