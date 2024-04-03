@@ -277,7 +277,8 @@ const orderController = {
             path: "tier",
           },
         })
-        .populate({ path: "idTransaction" });
+        .populate({ path: "idTransaction" })
+        .sort({ createdAt: -1 });
       return res.status(200).json({
         sucess: true,
         data: findOrderByUser,
