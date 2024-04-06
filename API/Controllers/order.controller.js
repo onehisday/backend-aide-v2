@@ -334,5 +334,32 @@ const orderController = {
       });
     }
   },
+  orderPagination: async (req, res, next) => {
+    try {
+      let perPage = 2;
+      let page = req.params.perpage;
+      const findOrderByUser = await orderModel
+        .find({ address: req.params._id })
+        .populate({ path: "detail", populate: { path: "tier" } })
+        .populate({ path: "idTransaction" })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
+      const count = await orderModel.countDocuments();
+      return res.status(200).json({
+        sucess: true,
+        data: {
+          findOrderByUser,
+          current: page,
+          pages: Math.ceil(count / perPage),
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        sucess: false,
+        message: error.message,
+      });
+    }
+  },
 };
 module.exports = orderController;

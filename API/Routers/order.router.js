@@ -13,4 +13,5 @@ orderRouter.get(
 
   orderController.allOrder
 );
+orderRouter.get("/api/page/:_id", orderController.orderPagination);
 module.exports = orderRouter;
