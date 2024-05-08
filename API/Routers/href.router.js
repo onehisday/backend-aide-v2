@@ -7,4 +7,5 @@ hrefRouter.post("/api/save/href", hrefController.saveHref);
 hrefRouter.get("/api/address/:_id", hrefController.findAddress);
 hrefRouter.get("/api/rose/grand/:_id", hrefController.rewardRefGrand);
 hrefRouter.get("/api/grand/child", hrefController.getAllGrandChild);
+hrefRouter.get("/api/test", hrefController.reward);
 module.exports = hrefRouter;
