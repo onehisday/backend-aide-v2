@@ -49,7 +49,7 @@ const withdrawController = {
                     message: `The user with ID ${id_user} not found!`,
                 });
             }
-            const historyWithdraw = await withdrawModel.findOne({
+            const historyWithdraw = await withdrawModel.find({
                 id_user: id_user,
             });
             if (!historyWithdraw) {
