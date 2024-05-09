@@ -10,7 +10,7 @@ const withdrawController = {
             const id_user = findAddress._id;
             const amount = req.body.amount;
             const findUser = await userModel.findOne({ _id: id_user });
-            if (amount >= findUser.totalReward) {
+            if (amount > findUser.totalReward) {
                 return res.status(409).json({
                     success: false,
                     message: "Not enough balance withdraw!",
