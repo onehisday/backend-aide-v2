@@ -379,12 +379,12 @@ const orderController = {
                 })
                 .populate({ path: "idTransaction" });
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 data: findAllOrder,
             });
         } catch (error) {
             return res.status(500).json({
-                sucess: false,
+                success: false,
                 message: error.message,
             });
         }

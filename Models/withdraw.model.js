@@ -10,6 +10,10 @@ const withdrawSchema = new Schema(
         amount: {
             type: Number,
         },
+        status: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
         timestamps: true,

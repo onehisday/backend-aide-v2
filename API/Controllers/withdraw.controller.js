@@ -5,7 +5,9 @@ const { default: mongoose } = require("mongoose");
 const withdrawController = {
     saveDrawUser: async (req, res) => {
         try {
-            const id_user = req.body.id_user;
+            const address = req.body.address;
+            const findAddress = await userModel.findOne({ address: address });
+            const id_user = findAddress._id;
             const amount = req.body.amount;
             const findUser = await userModel.findOne({ _id: id_user });
             if (amount >= findUser.totalReward) {
@@ -38,7 +40,9 @@ const withdrawController = {
     },
     getHistoryWithdraw: async (req, res) => {
         try {
-            const id_user = req.params.id_user;
+            const address = req.body.address;
+            const findAddress = await userModel.findOne({ address: address });
+            const id_user = findAddress._id;
             if (!mongoose.Types.ObjectId.isValid(id_user)) {
                 return res.status(404).json({
                     success: false,
