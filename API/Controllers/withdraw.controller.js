@@ -40,7 +40,7 @@ const withdrawController = {
     },
     getHistoryWithdraw: async (req, res) => {
         try {
-            const address = req.body.address;
+            const address = req.params._id;
             const findAddress = await userModel.findOne({ address: address });
             const id_user = findAddress._id;
             if (!mongoose.Types.ObjectId.isValid(id_user)) {

@@ -36,7 +36,7 @@ const transactionRouter = require("./API/Routers/transaction.router");
 const commissionRouter = require("./API/Routers/commission.router");
 const refSystemRouter = require("./API/Routers/refSystem.router");
 const withdrawRouter = require("./API/Routers/withdraw.router");
-
+const claimRewardRouter = require("./API/Routers/claimReward.router");
 // const rewardModel = require("./Models/reward.model");
 // const detailOrderModel = require("./Models/detailOrder.model");
 // const userModel = require("./Models/user.model");
@@ -59,7 +59,7 @@ app.use(transactionRouter);
 app.use(commissionRouter);
 app.use(refSystemRouter);
 app.use(withdrawRouter);
-
+app.use(claimRewardRouter);
 // const updateTotalEveryMin = async () => {
 //     const _id = process.env._id;
 //     const findReward = await rewardModel.findOne({ _id: _id });

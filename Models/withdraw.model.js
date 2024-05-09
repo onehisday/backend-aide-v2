@@ -12,7 +12,7 @@ const withdrawSchema = new Schema(
         },
         status: {
             type: Boolean,
-            default: true,
+            default: false,
         },
     },
     {
