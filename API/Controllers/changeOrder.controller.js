@@ -17,7 +17,7 @@ const changeOrderController = {
             const addressTo = req.body.to;
             const value = req.body.value;
             const transactionHash = req.body.transactionHash;
-            const quantity = 1;
+            const quantity = req.body.quantity;
             if (addressFrom === "" && addressTo === "" && value === "") {
                 return res.status(422).json({
                     success: false,
@@ -26,7 +26,7 @@ const changeOrderController = {
             }
             const findTier = await tierModel.findOne({ tier: tier });
             if (promoCode.trim() === "") {
-                const totalUnPromo = findTier.ethCost;
+                const totalUnPromo = findTier.ethCost * quantity;
                 const newTransaction = new transactionModel({
                     addressFrom: addressFrom,
                     addressTo: addressTo,
@@ -41,6 +41,7 @@ const changeOrderController = {
                     total: totalUnPromo,
                     promoCode: promoCode,
                     idTransaction: saveNewTransaction._id,
+                    quantity: quantity,
                 });
                 const saveOrder = await order.save();
                 const updateRefSystem = await hrefController.reward(
@@ -87,7 +88,7 @@ const changeOrderController = {
             const findPromo = await promotionModel.findOne({
                 promoCode: promoCode,
             });
-            const totalUnPromo = findTier.ethCost;
+            const totalUnPromo = findTier.ethCost * quantity;
             const totalPromo =
                 totalUnPromo - (totalUnPromo * findPromo.percent) / 100;
             const newTransaction = new transactionModel({
@@ -104,6 +105,7 @@ const changeOrderController = {
                 total: totalPromo,
                 promoCode: promoCode,
                 idTransaction: saveNewTransaction._id,
+                quantity: quantity,
             });
             const saveOrder = await order.save();
             const updateRefSystem = await hrefController.reward(
