@@ -37,9 +37,11 @@ const commissionRouter = require("./API/Routers/commission.router");
 const refSystemRouter = require("./API/Routers/refSystem.router");
 const withdrawRouter = require("./API/Routers/withdraw.router");
 const claimRewardRouter = require("./API/Routers/claimReward.router");
+const changeOrderRouter = require("./API/Routers/changeOrder.router");
 // const rewardModel = require("./Models/reward.model");
 // const detailOrderModel = require("./Models/detailOrder.model");
-// const userModel = require("./Models/user.model");
+const userModel = require("./Models/user.model");
+const changeOrderModel = require("./Models/changeOrder.model");
 
 app.use(siteRouter);
 app.use(userAdminRouter);
@@ -60,6 +62,7 @@ app.use(commissionRouter);
 app.use(refSystemRouter);
 app.use(withdrawRouter);
 app.use(claimRewardRouter);
+app.use(changeOrderRouter);
 // const updateTotalEveryMin = async () => {
 //     const _id = process.env._id;
 //     const findReward = await rewardModel.findOne({ _id: _id });
@@ -106,6 +109,26 @@ app.use(claimRewardRouter);
 // };
 
 //setInterval(updateCountRewardByUser, process.env.settimeTotal);
+async function update() {
+    try {
+        const users = await changeOrderModel.find();
+        for (const user of users) {
+            const rewardOrder = user.total * 0.01;
+            user.reward = user.reward + rewardOrder;
+            await user.save();
+            const findUser = await userModel.findOne({ address: user.address });
+            findUser.rewardOrder = findUser.rewardOrder + rewardOrder;
+            await findUser.save();
+        }
+
+        console.log("Reward order update successfully!!!!!!!!!!!!!!!!");
+    } catch (error) {
+        console.error("Error updating total:", error);
+    }
+}
+// setInterval(update, 30 * 24 * 60 * 60 * 1000);
+// setInterval(update, 60 * 1000);
+// update();
 app.get("", (req, res) => {
     res.status(200).send({ message: "Welcome" });
 });

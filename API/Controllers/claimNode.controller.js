@@ -22,7 +22,7 @@ const claimNodeController = {
             });
             if (!findClaimNode) {
                 return res.status(404).json({
-                    sucess: false,
+                    success: false,
                     message: "The ID claim node not found!",
                 });
             }
@@ -48,12 +48,12 @@ const claimNodeController = {
         try {
             const findClaimNode = await claimNodeModel.find();
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 data: findClaimNode,
             });
         } catch (error) {
             return res.status(500).json({
-                sucess: false,
+                success: false,
                 message: error.message,
             });
         }
@@ -65,17 +65,17 @@ const claimNodeController = {
             });
             if (!findClaimNode) {
                 return res.status(404).json({
-                    sucess: false,
-                    message: "The if claim node not found!",
+                    success: false,
+                    message: "The id claim node not found!",
                 });
             }
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 data: findClaimNode,
             });
         } catch (error) {
             return res.status(500).json({
-                sucess: false,
+                success: false,
                 message: error.message,
             });
         }
