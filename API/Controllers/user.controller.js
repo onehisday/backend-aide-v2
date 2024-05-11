@@ -19,7 +19,7 @@ const userController = {
             });
             const saveNewUser = await newUser.save();
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 data: saveNewUser,
             });
         } catch (error) {
