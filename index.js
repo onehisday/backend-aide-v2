@@ -42,6 +42,7 @@ const changeOrderRouter = require("./API/Routers/changeOrder.router");
 // const detailOrderModel = require("./Models/detailOrder.model");
 const userModel = require("./Models/user.model");
 const changeOrderModel = require("./Models/changeOrder.model");
+const transactionTonRouter = require("./API/Routers/transactionTon.router");
 
 app.use(siteRouter);
 app.use(userAdminRouter);
@@ -63,6 +64,7 @@ app.use(refSystemRouter);
 app.use(withdrawRouter);
 app.use(claimRewardRouter);
 app.use(changeOrderRouter);
+app.use(transactionTonRouter);
 // const updateTotalEveryMin = async () => {
 //     const _id = process.env._id;
 //     const findReward = await rewardModel.findOne({ _id: _id });

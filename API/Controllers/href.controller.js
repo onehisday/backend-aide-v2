@@ -141,6 +141,7 @@ const hrefController = {
         // const address = "0x33de35a98568e977b8160c5c20f7bb66b87b2a88";
         //const address = "0xD0f00Ad528EC39E1856c6dAAEDd2BE566Fcfa70";
         const address = Address;
+        console.log("address:", address);
         //const total = total;
         let currentAddress = address;
         let reward = await hrefController.rewardOrder(currentAddress);
