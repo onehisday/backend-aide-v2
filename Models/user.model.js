@@ -25,6 +25,14 @@ const userSchema = new Schema(
             type: Number,
             default: 0,
         },
+        totalRewardAgent: {
+            type: Number,
+            default: 0,
+        },
+        isAgent: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

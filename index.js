@@ -44,6 +44,13 @@ const userModel = require("./Models/user.model");
 const changeOrderModel = require("./Models/changeOrder.model");
 const transactionTonRouter = require("./API/Routers/transactionTon.router");
 
+const regulationAgentRouter = require("./API/Routers/regulationAgent.router");
+const secondBranchRouter = require("./API/Routers/secondBranch.router");
+const agentRouter = require("./API/Routers/agent.router");
+const commissionAgentRouter = require("./API/Routers/commissionAgent.router");
+const levelOrderRouter = require("./API/Routers/levelOrder.router");
+const levelRefRouter = require("./API/Routers/levelRef.router");
+
 app.use(siteRouter);
 app.use(userAdminRouter);
 app.use(userRouter);
@@ -65,6 +72,14 @@ app.use(withdrawRouter);
 app.use(claimRewardRouter);
 app.use(changeOrderRouter);
 app.use(transactionTonRouter);
+
+app.use(regulationAgentRouter);
+app.use(secondBranchRouter);
+app.use(agentRouter);
+app.use(commissionAgentRouter);
+app.use(levelOrderRouter);
+app.use(levelRefRouter);
+
 // const updateTotalEveryMin = async () => {
 //     const _id = process.env._id;
 //     const findReward = await rewardModel.findOne({ _id: _id });

@@ -89,22 +89,27 @@ const userController = {
         }
     },
     updateTotalReward: async (result, total) => {
+        // console.log("result:", result);
         const find = result.forEach(async (result) => {
             const user = await refSystemModel.findOne({ level: result.level });
+            let totalRewardNew;
             if (user) {
                 const findUser = await userModel.findOne({
                     address: result.address,
                 });
-                const totalReward =
+                // console.log("findUser:", findUser);
+                totalRewardNew =
                     findUser.totalReward + (user.income * total) / 100;
+                // console.log("totalReward:", totalRewardNew);
+                // await findUser.save();
                 await userModel.findOneAndUpdate(
                     { address: findUser.address },
-                    { totalReward: totalReward },
+                    { totalReward: totalRewardNew },
                     { new: true }
                 );
             }
         });
-        return `Updated successfully!`;
+        return true;
     },
 };
 module.exports = userController;

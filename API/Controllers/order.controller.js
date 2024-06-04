@@ -7,6 +7,10 @@ const userModel = require("../../Models/user.model");
 const countOrderController = require("../Controllers/countOrder.controller");
 const hrefController = require("./href.controller");
 const userController = require("./user.controller");
+const commissionAgentController = require("./commissionAgent.controller");
+const levelOrderController = require("./levelOrder.controller");
+const childAffiliateController = require("./childAffiliate.controller");
+const levelRefModel = require("../../Models/levelRef.model");
 
 const orderController = {
     createOrder: async (req, res, next) => {
@@ -90,6 +94,80 @@ const orderController = {
                 //         address,
                 //         detailLength
                 //     );
+
+                //Reward Order
+                // const findOrder = await orderModel.find({address: address})
+                // let sumTotal = 0
+
+                const findUser = await userModel.findOne({ address: address });
+                console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+                const findGrandAgent =
+                    await commissionAgentController.rewardAgent(
+                        findUser.address
+                    );
+                console.log("findGrandAgent:", findGrandAgent);
+                let total = 0;
+                if (findUser.isAgent === true) {
+                    const findOrder = await orderModel.aggregate([
+                        { $match: { address: address } },
+                        { $group: { _id: null, total: { $sum: "$total" } } },
+                    ]);
+                    total = findOrder.length > 0 ? findOrder[0].total : 0;
+                }
+                //     const level =
+                //         await commissionAgentController.getLevelAndBonus(total);
+                //     console.log("level:", level);
+                //     findUser.totalRewardAgent =
+                //         Number(findUser.totalRewardAgent) +
+                //         Number(total * level.bonusRate);
+                //     await findUser.save();
+                // }
+                //level Order
+                console.log("total:", total);
+                // await levelOrderController.checkLevelOrder(findUser._id, total);
+                const checkLevel = await childAffiliateController.checkLevel(
+                    findUser._id
+                );
+                console.log("checkLevel:", checkLevel);
+                let check = false;
+                if (checkLevel.levelRef && check == false) {
+                    const findRefChild = await childAffiliateController.reward(
+                        findUser.address
+                    );
+                    console.log("findRefChild:", findRefChild);
+                    let totalRefChild = 0;
+                    for (const ref of findRefChild) {
+                        console.log("ref:", ref);
+                        const find = await userModel.findOne({ address: ref });
+                        console.log("find:", find.totalReward);
+                        totalRefChild =
+                            Number(totalRefChild) + Number(find.totalReward);
+                        console.log("totalRefChild:", totalRefChild);
+                    }
+                    const findLevelRef = await levelRefModel.findOne({
+                        level: checkLevel.currentLevel,
+                    });
+                    console.log("totalRefChild:", totalRefChild);
+                    if (totalRefChild >= findLevelRef.amount) {
+                        console.log("????????????????????????????????");
+                        findLevelRef.count += 1;
+                        findLevelRef.user.push(findUser._id);
+                        if (findLevelRef.count === findLevelRef.slotLevel) {
+                            findLevelRef.isLevel = false;
+                        }
+                        await findLevelRef.save();
+                        check = true;
+                    }
+                }
+                if (checkLevel.levelOrder && check == false) {
+                    console.log("///////////////////////////////////");
+                    await levelOrderController.checkLevelOrder(
+                        findUser._id,
+                        total,
+                        checkLevel.currentLevel
+                    );
+                }
+
                 return res.status(200).json({
                     success: true,
                     data: saveOrder,
@@ -157,6 +235,65 @@ const orderController = {
                 //     address,
                 //     detailLengh
                 // );
+
+                const findUser = await userModel.findOne({ address: address });
+                if (findUser.isAgent === true) {
+                    const findOrder = await orderModel.aggregate([
+                        { $match: { address: address } },
+                        { $group: { _id: null, total: { $sum: "$total" } } },
+                    ]);
+                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
+                    const level =
+                        await commissionAgentController.getLevelAndBonus(total);
+                    console.log("level:", level);
+                    findUser.totalRewardAgent =
+                        Number(findUser.totalRewardAgent) +
+                        Number(total * level.bonusRate);
+                    await findUser.save();
+                }
+                //
+                const checkLevel = await childAffiliateController.checkLevel(
+                    findUser._id
+                );
+                console.log("checkLevel:", checkLevel);
+                let check = false;
+                if (checkLevel.levelRef && check == false) {
+                    const findRefChild = await childAffiliateController.reward(
+                        findUser.address
+                    );
+                    console.log("findRefChild:", findRefChild);
+                    let totalRefChild = 0;
+                    for (const ref of findRefChild) {
+                        console.log("ref:", ref);
+                        const find = await userModel.findOne({ address: ref });
+                        console.log("find:", find.totalReward);
+                        totalRefChild =
+                            Number(totalRefChild) + Number(find.totalReward);
+                        console.log("totalRefChild:", totalRefChild);
+                    }
+                    const findLevelRef = await levelRefModel.findOne({
+                        level: checkLevel.currentLevel,
+                    });
+                    console.log("totalRefChild:", totalRefChild);
+                    if (totalRefChild >= findLevelRef.amount) {
+                        console.log("????????????????????????????????");
+                        findLevelRef.count += 1;
+                        findLevelRef.user.push(findUser._id);
+                        if (findLevelRef.count === findLevelRef.slotLevel) {
+                            findLevelRef.isLevel = false;
+                        }
+                        await findLevelRef.save();
+                        check = true;
+                    }
+                }
+                if (checkLevel.levelOrder && check == false) {
+                    console.log("///////////////////////////////////");
+                    await levelOrderController.checkLevelOrder(
+                        findUser._id,
+                        total,
+                        checkLevel.currentLevel
+                    );
+                }
                 return res.status(200).json({
                     success: true,
                     data: saveElseOrder,
@@ -239,6 +376,65 @@ const orderController = {
                 //         address,
                 //         detailLength
                 //     );
+
+                const findUser = await userModel.findOne({ address: address });
+                if (findUser.isAgent === true) {
+                    const findOrder = await orderModel.aggregate([
+                        { $match: { address: address } },
+                        { $group: { _id: null, total: { $sum: "$total" } } },
+                    ]);
+                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
+                    const level =
+                        await commissionAgentController.getLevelAndBonus(total);
+                    console.log("level:", level);
+                    findUser.totalRewardAgent =
+                        Number(findUser.totalRewardAgent) +
+                        Number(total * level.bonusRate);
+                    await findUser.save();
+                }
+                //
+                const checkLevel = await childAffiliateController.checkLevel(
+                    findUser._id
+                );
+                console.log("checkLevel:", checkLevel);
+                let check = false;
+                if (checkLevel.levelRef && check == false) {
+                    const findRefChild = await childAffiliateController.reward(
+                        findUser.address
+                    );
+                    console.log("findRefChild:", findRefChild);
+                    let totalRefChild = 0;
+                    for (const ref of findRefChild) {
+                        console.log("ref:", ref);
+                        const find = await userModel.findOne({ address: ref });
+                        console.log("find:", find.totalReward);
+                        totalRefChild =
+                            Number(totalRefChild) + Number(find.totalReward);
+                        console.log("totalRefChild:", totalRefChild);
+                    }
+                    const findLevelRef = await levelRefModel.findOne({
+                        level: checkLevel.currentLevel,
+                    });
+                    console.log("totalRefChild:", totalRefChild);
+                    if (totalRefChild >= findLevelRef.amount) {
+                        console.log("????????????????????????????????");
+                        findLevelRef.count += 1;
+                        findLevelRef.user.push(findUser._id);
+                        if (findLevelRef.count === findLevelRef.slotLevel) {
+                            findLevelRef.isLevel = false;
+                        }
+                        await findLevelRef.save();
+                        check = true;
+                    }
+                }
+                if (checkLevel.levelOrder && check == false) {
+                    console.log("///////////////////////////////////");
+                    await levelOrderController.checkLevelOrder(
+                        findUser._id,
+                        total,
+                        checkLevel.currentLevel
+                    );
+                }
                 return res.status(200).json({
                     success: true,
                     data: saveOrder,
@@ -310,6 +506,63 @@ const orderController = {
                 //     address,
                 //     detailLengh
                 // );
+                const findUser = await userModel.findOne({ address: address });
+                if (findUser.isAgent === true) {
+                    const findOrder = await orderModel.aggregate([
+                        { $match: { address: address } },
+                        { $group: { _id: null, total: { $sum: "$total" } } },
+                    ]);
+                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
+                    const level =
+                        await commissionAgentController.getLevelAndBonus(total);
+                    console.log("level:", level);
+                    findUser.totalRewardAgent =
+                        Number(findUser.totalRewardAgent) +
+                        Number(total * level.bonusRate);
+                    await findUser.save();
+                }
+                const checkLevel = await childAffiliateController.checkLevel(
+                    findUser._id
+                );
+                console.log("checkLevel:", checkLevel);
+                let check = false;
+                if (checkLevel.levelRef && check == false) {
+                    const findRefChild = await childAffiliateController.reward(
+                        findUser.address
+                    );
+                    console.log("findRefChild:", findRefChild);
+                    let totalRefChild = 0;
+                    for (const ref of findRefChild) {
+                        console.log("ref:", ref);
+                        const find = await userModel.findOne({ address: ref });
+                        console.log("find:", find.totalReward);
+                        totalRefChild =
+                            Number(totalRefChild) + Number(find.totalReward);
+                        console.log("totalRefChild:", totalRefChild);
+                    }
+                    const findLevelRef = await levelRefModel.findOne({
+                        level: checkLevel.currentLevel,
+                    });
+                    console.log("totalRefChild:", totalRefChild);
+                    if (totalRefChild >= findLevelRef.amount) {
+                        console.log("????????????????????????????????");
+                        findLevelRef.count += 1;
+                        findLevelRef.user.push(findUser._id);
+                        if (findLevelRef.count === findLevelRef.slotLevel) {
+                            findLevelRef.isLevel = false;
+                        }
+                        await findLevelRef.save();
+                        check = true;
+                    }
+                }
+                if (checkLevel.levelOrder && check == false) {
+                    console.log("///////////////////////////////////");
+                    await levelOrderController.checkLevelOrder(
+                        findUser._id,
+                        total,
+                        checkLevel.currentLevel
+                    );
+                }
                 return res.status(200).json({
                     success: true,
                     data: saveElseOrder,
