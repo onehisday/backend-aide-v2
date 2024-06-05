@@ -106,17 +106,23 @@ const orderController = {
                         findUser.address
                     );
                 console.log("findGrandAgent:", findGrandAgent);
+                const level = await commissionAgentController.getLevelAndBonus(
+                    saveOrder.total
+                );
+                console.log("level:", level);
+                const rewardAgentGrand = await userController.updateTotalAgent(
+                    findGrandAgent,
+                    saveOrder.total,
+                    level.bonusRate
+                );
                 let total = 0;
-                if (findUser.isAgent === true) {
-                    const findOrder = await orderModel.aggregate([
-                        { $match: { address: address } },
-                        { $group: { _id: null, total: { $sum: "$total" } } },
-                    ]);
-                    total = findOrder.length > 0 ? findOrder[0].total : 0;
-                }
-                //     const level =
-                //         await commissionAgentController.getLevelAndBonus(total);
-                //     console.log("level:", level);
+
+                const findOrder = await orderModel.aggregate([
+                    { $match: { address: address } },
+                    { $group: { _id: null, total: { $sum: "$total" } } },
+                ]);
+                total = findOrder.length > 0 ? findOrder[0].total : 0;
+
                 //     findUser.totalRewardAgent =
                 //         Number(findUser.totalRewardAgent) +
                 //         Number(total * level.bonusRate);
@@ -237,21 +243,37 @@ const orderController = {
                 // );
 
                 const findUser = await userModel.findOne({ address: address });
-                if (findUser.isAgent === true) {
-                    const findOrder = await orderModel.aggregate([
-                        { $match: { address: address } },
-                        { $group: { _id: null, total: { $sum: "$total" } } },
-                    ]);
-                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
-                    const level =
-                        await commissionAgentController.getLevelAndBonus(total);
-                    console.log("level:", level);
-                    findUser.totalRewardAgent =
-                        Number(findUser.totalRewardAgent) +
-                        Number(total * level.bonusRate);
-                    await findUser.save();
-                }
-                //
+                console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+                const findGrandAgent =
+                    await commissionAgentController.rewardAgent(
+                        findUser.address
+                    );
+                console.log("findGrandAgent:", findGrandAgent);
+                const level = await commissionAgentController.getLevelAndBonus(
+                    saveOrder.total
+                );
+                console.log("level:", level);
+                const rewardAgentGrand = await userController.updateTotalAgent(
+                    findGrandAgent,
+                    saveOrder.total,
+                    level.bonusRate
+                );
+                let total = 0;
+
+                const findOrder = await orderModel.aggregate([
+                    { $match: { address: address } },
+                    { $group: { _id: null, total: { $sum: "$total" } } },
+                ]);
+                total = findOrder.length > 0 ? findOrder[0].total : 0;
+
+                //     findUser.totalRewardAgent =
+                //         Number(findUser.totalRewardAgent) +
+                //         Number(total * level.bonusRate);
+                //     await findUser.save();
+                // }
+                //level Order
+                console.log("total:", total);
+                // await levelOrderController.checkLevelOrder(findUser._id, total);
                 const checkLevel = await childAffiliateController.checkLevel(
                     findUser._id
                 );
@@ -378,21 +400,37 @@ const orderController = {
                 //     );
 
                 const findUser = await userModel.findOne({ address: address });
-                if (findUser.isAgent === true) {
-                    const findOrder = await orderModel.aggregate([
-                        { $match: { address: address } },
-                        { $group: { _id: null, total: { $sum: "$total" } } },
-                    ]);
-                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
-                    const level =
-                        await commissionAgentController.getLevelAndBonus(total);
-                    console.log("level:", level);
-                    findUser.totalRewardAgent =
-                        Number(findUser.totalRewardAgent) +
-                        Number(total * level.bonusRate);
-                    await findUser.save();
-                }
-                //
+                console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+                const findGrandAgent =
+                    await commissionAgentController.rewardAgent(
+                        findUser.address
+                    );
+                console.log("findGrandAgent:", findGrandAgent);
+                const level = await commissionAgentController.getLevelAndBonus(
+                    saveOrder.total
+                );
+                console.log("level:", level);
+                const rewardAgentGrand = await userController.updateTotalAgent(
+                    findGrandAgent,
+                    saveOrder.total,
+                    level.bonusRate
+                );
+                let total = 0;
+
+                const findOrder = await orderModel.aggregate([
+                    { $match: { address: address } },
+                    { $group: { _id: null, total: { $sum: "$total" } } },
+                ]);
+                total = findOrder.length > 0 ? findOrder[0].total : 0;
+
+                //     findUser.totalRewardAgent =
+                //         Number(findUser.totalRewardAgent) +
+                //         Number(total * level.bonusRate);
+                //     await findUser.save();
+                // }
+                //level Order
+                console.log("total:", total);
+                // await levelOrderController.checkLevelOrder(findUser._id, total);
                 const checkLevel = await childAffiliateController.checkLevel(
                     findUser._id
                 );
@@ -507,20 +545,37 @@ const orderController = {
                 //     detailLengh
                 // );
                 const findUser = await userModel.findOne({ address: address });
-                if (findUser.isAgent === true) {
-                    const findOrder = await orderModel.aggregate([
-                        { $match: { address: address } },
-                        { $group: { _id: null, total: { $sum: "$total" } } },
-                    ]);
-                    const total = findOrder.length > 0 ? findOrder[0].total : 0;
-                    const level =
-                        await commissionAgentController.getLevelAndBonus(total);
-                    console.log("level:", level);
-                    findUser.totalRewardAgent =
-                        Number(findUser.totalRewardAgent) +
-                        Number(total * level.bonusRate);
-                    await findUser.save();
-                }
+                console.log("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
+                const findGrandAgent =
+                    await commissionAgentController.rewardAgent(
+                        findUser.address
+                    );
+                console.log("findGrandAgent:", findGrandAgent);
+                const level = await commissionAgentController.getLevelAndBonus(
+                    saveOrder.total
+                );
+                console.log("level:", level);
+                const rewardAgentGrand = await userController.updateTotalAgent(
+                    findGrandAgent,
+                    saveOrder.total,
+                    level.bonusRate
+                );
+                let total = 0;
+
+                const findOrder = await orderModel.aggregate([
+                    { $match: { address: address } },
+                    { $group: { _id: null, total: { $sum: "$total" } } },
+                ]);
+                total = findOrder.length > 0 ? findOrder[0].total : 0;
+
+                //     findUser.totalRewardAgent =
+                //         Number(findUser.totalRewardAgent) +
+                //         Number(total * level.bonusRate);
+                //     await findUser.save();
+                // }
+                //level Order
+                console.log("total:", total);
+                // await levelOrderController.checkLevelOrder(findUser._id, total);
                 const checkLevel = await childAffiliateController.checkLevel(
                     findUser._id
                 );

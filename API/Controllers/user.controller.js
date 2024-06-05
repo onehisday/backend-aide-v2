@@ -111,5 +111,19 @@ const userController = {
         });
         return true;
     },
+    updateTotalAgent: async (results, total, percent) => {
+        for (const result of results) {
+            console.log("result:", result);
+            const user = await userModel.findOne({ address: result });
+            // if (user && user.totalRewardAgent) {
+            console.log("=========================");
+            const totalReward = user.totalRewardAgent + total * percent;
+            console.log("totalReward:", totalReward);
+            user.totalRewardAgent = totalReward;
+            await user.save();
+            // }
+        }
+        return true;
+    },
 };
 module.exports = userController;
