@@ -47,7 +47,9 @@ const levelOrderController = {
     },
     getAllLevelOrder: async (req, res) => {
         try {
-            const findAll = await levelOrderModel.find();
+            const findAll = await levelOrderModel
+                .find()
+                .populate({ path: "user" });
             return res.status(200).json({
                 success: true,
                 data: findAll,
