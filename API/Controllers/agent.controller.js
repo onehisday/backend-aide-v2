@@ -8,6 +8,7 @@ const agentController = {
     reviewAgent: async (req, res) => {
         try {
             const id_Agent = req.body.address;
+            console.log(id_Agent);
             // const findOrderAgent = await orderModel.aggregate([
             //     { $match: { address: id_Agent } },
             //     { $group: { _id: null, totalSum: { $sum: "$total" } } },
@@ -25,6 +26,7 @@ const agentController = {
                 regulationAgentModel.find(),
                 secondBranchModel.find(),
             ]);
+            console.log("findUser:", findUser);
             // const findOrderAgent = await orderModel.find({ address: id_Agent });
             // const findRegulationAgent = await regulationAgentModel.find();
             let sumTotal = 0;
@@ -41,6 +43,13 @@ const agentController = {
             const findHref = await hrefModel.find({
                 addressGrand: findUser._id,
             });
+            console.log("findHref:", findHref);
+            if (!findHref) {
+                return res.status(404).json({
+                    success: false,
+                    message: "The user not found href!",
+                });
+            }
             console.log("findHref:", findHref);
             let allProcessedAddresses = [];
             const processHref = async (href, processedAddresses) => {
@@ -85,7 +94,7 @@ const agentController = {
                 Number(Math.max(...totals)) <
                 Number(findRegulationAgent[0].minimum)
             ) {
-                return res.status(400).json({
+                return res.status(422).json({
                     success: false,
                     message:
                         "The total application amount is not enough for the minimum requirement.",
@@ -97,7 +106,7 @@ const agentController = {
             for (let num of totals) {
                 if (num !== Math.max(...totals) && num < fiftyPercentOfMax) {
                     isEnough = false;
-                    return res.status(400).json({
+                    return res.status(422).json({
                         success: false,
                         message: "Sub-branches are not qualified to be agents.",
                     });
